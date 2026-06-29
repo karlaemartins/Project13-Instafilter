@@ -34,6 +34,18 @@ final class PhotoFilterViewModel {
         }
     }
     
+    func updateIntensity(_ value: Float) {
+        intensity = value
+
+        guard let originalImage else { return }
+
+        processedImage = filterService.applyFilter(to: originalImage, filter: selectedFilter, intensity: intensity)
+
+        if let processedImage {
+            delegate?.didUpdateImage(processedImage)
+        }
+    }
+    
     
 
 }

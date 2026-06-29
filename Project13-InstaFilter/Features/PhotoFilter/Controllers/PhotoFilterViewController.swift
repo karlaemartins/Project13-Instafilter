@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PhotoFilterViewController: UIViewController, PhotoFilterViewModelDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+final class PhotoFilterViewController: UIViewController, PhotoFilterViewModelDelegate, PhotoFilterViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     private let contentView = PhotoFilterView()
     private let viewModel = PhotoFilterViewModel(filterService: FilterService())
@@ -20,6 +20,8 @@ final class PhotoFilterViewController: UIViewController, PhotoFilterViewModelDel
         super.viewDidLoad()
 
         viewModel.delegate = self
+        contentView.delegate = self
+        
         title = "Instafilter"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(importPicture))
     }
@@ -41,5 +43,18 @@ final class PhotoFilterViewController: UIViewController, PhotoFilterViewModelDel
         dismiss(animated: true)
 
         viewModel.setImage(image)
+    }
+    
+    func didChangeIntensity(_ value: Float) {
+        viewModel.updateIntensity(value)
+    }
+
+    func didTapChangeFilter() {
+       
+
+    }
+
+    func didTapSave() {
+
     }
 }
