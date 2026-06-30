@@ -26,6 +26,10 @@ final class PhotoFilterViewModel {
         processedImage
     }
     
+    var currentFilterName: String {
+        selectedFilter.displayName
+    }
+    
     init(filterService: FilterServiceProtocol) {
         self.filterService = filterService
     }

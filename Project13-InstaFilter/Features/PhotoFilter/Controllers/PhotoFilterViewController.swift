@@ -21,6 +21,7 @@ final class PhotoFilterViewController: UIViewController {
 
         viewModel.delegate = self
         contentView.delegate = self
+        contentView.setButtonsEnabled(false)
 
         title = "Instafilter"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(importPicture))
@@ -60,6 +61,7 @@ extension PhotoFilterViewController: PhotoFilterViewModelDelegate {
 
     func didUpdateImage(_ image: UIImage) {
         contentView.updateImage(image)
+        contentView.setButtonsEnabled(true)
     }
 }
 
@@ -88,7 +90,10 @@ extension PhotoFilterViewController: PhotoFilterViewDelegate {
 
         for filter in FilterOption.allCases {
             ac.addAction(UIAlertAction(title: filter.displayName, style: .default) { [weak self] _ in
-                self?.viewModel.updateFilter(filter)
+                guard let self else { return }
+
+                viewModel.updateFilter(filter)
+                contentView.updateFilterButtonTitle(viewModel.currentFilterName)
             })
         }
 
@@ -97,10 +102,7 @@ extension PhotoFilterViewController: PhotoFilterViewDelegate {
     }
     
     func didTapSave() {
-        guard let image = viewModel.currentImage else {
-            showAlert(title: "No Image", message: "Please select an image before trying to save.")
-            return
-        }
+        guard let image = viewModel.currentImage else { return }
         
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }

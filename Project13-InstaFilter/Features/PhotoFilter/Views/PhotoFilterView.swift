@@ -36,6 +36,15 @@ final class PhotoFilterView: UIView {
     func updateImage(_ image: UIImage) {
         imageView.image = image
     }
+    
+    func updateFilterButtonTitle(_ title: String) {
+        changeFilterButton.setTitle(title, for: .normal)
+    }
+    
+    func setButtonsEnabled(_ isEnabled: Bool) {
+        changeFilterButton.isEnabled = isEnabled
+        saveButton.isEnabled = isEnabled
+    }
 }
 
 
