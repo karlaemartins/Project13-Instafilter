@@ -64,6 +64,25 @@ final class PhotoFilterViewController: UIViewController, PhotoFilterViewModelDel
     }
 
     func didTapSave() {
+        guard let image = viewModel.currentImage else { return }
 
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+    }
+    
+    @objc private func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        let title: String
+        let message: String
+
+        if let error {
+            title = "Save Error"
+            message = error.localizedDescription
+        } else {
+            title = "Saved!"
+            message = "Your edited image has been saved to your photo library."
+        }
+
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
     }
 }

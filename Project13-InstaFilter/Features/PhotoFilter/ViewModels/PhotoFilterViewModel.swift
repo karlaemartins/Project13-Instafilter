@@ -25,6 +25,10 @@ final class PhotoFilterViewModel {
         self.filterService = filterService
     }
     
+    var currentImage: UIImage? {
+        processedImage
+    }
+    
     func setImage(_ image: UIImage) {
         originalImage = image
         processedImage = image
