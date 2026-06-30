@@ -57,4 +57,4 @@ Comparado ao projeto apresentado no curso, foram realizadas algumas adaptações
 
 ## Créditos
 
-Projeto baseado no **Project 13 – Instafilter**, do curso **100 Days of Swift**, criado por **Paul Hudson (Hacking with Swift)**.
+Projeto baseado no **Project 13**, do curso **100 Days of Swift**, criado por **Paul Hudson (Hacking with Swift)**.
