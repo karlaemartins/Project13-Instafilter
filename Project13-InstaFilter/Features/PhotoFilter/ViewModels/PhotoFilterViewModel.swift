@@ -17,17 +17,19 @@ final class PhotoFilterViewModel {
     weak var delegate: PhotoFilterViewModelDelegate?
     
     private var originalImage: UIImage?
+    private var processedImage: UIImage?
+
     private var selectedFilter: FilterOption = .sepia
     private var intensity: Float = 0.5
-    private var processedImage: UIImage?
+    
+    var currentImage: UIImage? {
+        processedImage
+    }
     
     init(filterService: FilterServiceProtocol) {
         self.filterService = filterService
     }
     
-    var currentImage: UIImage? {
-        processedImage
-    }
     
     func setImage(_ image: UIImage) {
         originalImage = image
@@ -38,19 +40,15 @@ final class PhotoFilterViewModel {
     
     func updateIntensity(_ value: Float) {
         intensity = value
-
-        guard let originalImage else { return }
-
-        processedImage = filterService.applyFilter(to: originalImage, filter: selectedFilter, intensity: intensity)
-
-        if let processedImage {
-            delegate?.didUpdateImage(processedImage)
-        }
+        applyCurrentFilter()
     }
     
     func updateFilter(_ filter: FilterOption) {
         selectedFilter = filter
-
+        applyCurrentFilter()
+    }
+    
+    private func applyCurrentFilter() {
         guard let originalImage else { return }
 
         processedImage = filterService.applyFilter(to: originalImage, filter: selectedFilter, intensity: intensity)
@@ -59,7 +57,4 @@ final class PhotoFilterViewModel {
             delegate?.didUpdateImage(processedImage)
         }
     }
-    
-    
-
 }

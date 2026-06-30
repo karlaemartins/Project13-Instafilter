@@ -17,29 +17,28 @@ final class FilterService: FilterServiceProtocol {
         guard let beginImage = CIImage(image: image) else {
             return nil
         }
-        
+
         guard let currentFilter = CIFilter(name: filter.coreImageName) else {
             return nil
         }
-        
+
         currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
-        
+
         let inputKeys = currentFilter.inputKeys
-        
-        
-        
+
         if inputKeys.contains(kCIInputIntensityKey) {
             currentFilter.setValue(intensity, forKey: kCIInputIntensityKey)
         }
-        
+
         if inputKeys.contains(kCIInputRadiusKey) {
             currentFilter.setValue(intensity * 200, forKey: kCIInputRadiusKey)
         }
-        
+
         if inputKeys.contains(kCIInputCenterKey) {
-            currentFilter.setValue(CIVector(x: beginImage.extent.midX, y: beginImage.extent.midY), forKey: kCIInputCenterKey)
+            let center = CIVector(x: beginImage.extent.midX, y: beginImage.extent.midY)
+            currentFilter.setValue(center, forKey: kCIInputCenterKey)
         }
-        
+
         guard let outputImage = currentFilter.outputImage else {
             return nil
         }
